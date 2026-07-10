@@ -1,5 +1,0 @@
-Upload the compressed FastDL map file here:
-
-maps/de_dust3.bsp.bz2
-
-Do not upload de_dust3.zip, de_dust3.rar, or de_dust3.7z for FastDL. CS:GO FastDL looks for .bsp or .bsp.bz2 using the same path as the server map.
