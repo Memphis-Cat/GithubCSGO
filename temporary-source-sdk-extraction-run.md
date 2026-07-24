@@ -3,3 +3,5 @@ Temporary marker used only to trigger a draft pull-request workflow that creates
 Diagnostic rerun after preserving extraction logs.
 
 Rerun after correcting the classifier typo.
+
+Final regeneration with cleaned documentation summaries.
