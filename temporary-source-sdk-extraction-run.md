@@ -5,3 +5,5 @@ Diagnostic rerun after preserving extraction logs.
 Rerun after correcting the classifier typo.
 
 Final regeneration with cleaned documentation summaries.
+
+Rerun using verified chunked payload reconstruction.
