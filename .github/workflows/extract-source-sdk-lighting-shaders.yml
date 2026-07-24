@@ -1,0 +1,49 @@
+name: Extract Source SDK lighting and shaders
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out extraction harness only
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github/tools/extract_lighting_shaders.py.gz
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: Restore extraction script
+        shell: bash
+        run: |
+          gzip -dc .github/tools/extract_lighting_shaders.py.gz > /tmp/extract_lighting_shaders.py
+          python3 -m py_compile /tmp/extract_lighting_shaders.py
+
+      - name: Extract, analyze, document, and package
+        shell: bash
+        run: |
+          python3 /tmp/extract_lighting_shaders.py \
+            --work "$RUNNER_TEMP/source-sdk-lighting-work" \
+            --output "$GITHUB_WORKSPACE/source-sdk-2012-lighting-shaders.zip" \
+            | tee extraction-summary.json
+          test -s source-sdk-2012-lighting-shaders.zip
+
+      - name: Upload requested ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-sdk-2012-lighting-shaders
+          path: |
+            source-sdk-2012-lighting-shaders.zip
+            extraction-summary.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
